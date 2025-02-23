@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f4f4f4;
+        }
+        .calculator input {
+            grid-column: span 4;
+            font-size: 18px;
+            padding: 10px;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        .calculator button {
+            font-size: 18px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" disabled>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="operate('/')">/</button>
+        <button onclick="operate('')"></button>
+        <button onclick="operate('-')">-</button>
+        <button onclick="appendNumber(7)">7</button>
+        <button onclick="appendNumber(8)">8</button>
+        <button onclick="appendNumber(9)">9</button>
+        <button onclick="operate('+')">+</button>
+        <button onclick="appendNumber(4)">4</button>
+        <button onclick="appendNumber(5)">5</button>
+        <button onclick="appendNumber(6)">6</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendNumber(1)">1</button>
+        <button onclick="appendNumber(2)">2</button>
+        <button onclick="appendNumber(3)">3</button>
+        <button onclick="appendNumber(0)">0</button>
+        <button onclick="appendDot()">.</button>
+        <button onclick="negate()">+/-</button>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentValue = '';
+        let currentOperator = '';
+
+        function appendNumber(number) {
+            currentValue += number;
+            display.value = currentValue;
+        }
+
+        function appendDot() {
+            if (!currentValue.includes('.')) {
+                currentValue += '.';
+                display.value = currentValue;
+            }
+        }
+
+        function operate(operator) {
+            if (currentValue !== '') {
+                currentValue += ' ' + operator + ' ';
+                display.value = currentValue;
+                currentOperator = operator;
+            }
+        }
+
+        function calculate() {
+            try {
+                currentValue = eval(currentValue.replace(/ /g, ''));
+                display.value = currentValue;
+                currentValue = '';
+            } catch (e) {
+                display.value = 'Error';
+            }
+        }
+
+        function clearDisplay() {
+            currentValue = '';
+            display.value = '';
+        }
+
+        function negate() {
+            if (currentValue.startsWith('-')) {
+                currentValue = currentValue.substring(1);
+            } else {
+                currentValue = '-' + currentValue;
+            }
+            display.value = currentValue;
+        }
+    </script>
+</body>
+</html>
